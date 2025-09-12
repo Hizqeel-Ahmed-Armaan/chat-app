@@ -14,15 +14,12 @@ const ChatContainer = () => {
     unsubscribeFromMessages,
   } = useChatStore();
   const { authUser } = useAuthStore();
-
   const messagesEndRef = useRef(null);
 
-  // Fetch messages and subscribe when selectedUser changes
   useEffect(() => {
     if (selectedUser?._id) {
       getMessages(selectedUser._id);
       subscribeToMessages();
-
       return () => unsubscribeFromMessages();
     }
   }, [
@@ -32,25 +29,21 @@ const ChatContainer = () => {
     unsubscribeFromMessages,
   ]);
 
-  // Auto-scroll to bottom when messages update
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
-  // Show NoChatSelected when no user selected
   if (!selectedUser) return <NoChatSelected />;
 
   return (
     <div className="flex flex-col h-full bg-gray-200">
       <ChatHeader />
-
-      <div className="flex-grow overflow-y-auto p-4 flex flex-col w-full">
+      <div className="flex-grow overflow-y-auto p-4 flex flex-col w-full pb-20">
         {messages.map((message) => {
           const isMyMessage =
             message.senderId?.toString() === authUser?._id?.toString();
-
           return (
             <div
               key={message._id}
@@ -66,8 +59,7 @@ const ChatContainer = () => {
         })}
         <div ref={messagesEndRef}></div>
       </div>
-
-      <div className="sticky bottom-0 p-4 bg-gray-200">
+      <div className="sticky bottom-0 p-4 bg-gray-200 z-10">
         <MessageInput />
       </div>
     </div>
