@@ -11,10 +11,10 @@ const Home = () => {
     <div className="h-screen flex">
 
       <div className="hidden md:flex w-full">
-        <div className="w-1/4 ">
+        <div className="w-1/4 md:w-1/3">
           <Sidebar />
         </div>
-        <div className="w-3/4">
+        <div className="w-3/4 md:w-2/3">
           {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
         </div>
       </div>
